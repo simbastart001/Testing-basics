@@ -1,4 +1,4 @@
-package com.example.android.architecture.blueprints.todoapp.statistics
+package com.example.android.architecture.blueprints.statistics
 
 /** @DrStart
  * write unit tests for the getActiveAndCompletedStats() function.
@@ -16,6 +16,7 @@ package com.example.android.architecture.blueprints.todoapp.statistics
 import org.junit.Assert.*
 import org.junit.Test
 import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.statistics.getActiveAndCompletedStats
 import org.hamcrest.core.Is.`is`
 
 class StatisticsUtilsTest {
