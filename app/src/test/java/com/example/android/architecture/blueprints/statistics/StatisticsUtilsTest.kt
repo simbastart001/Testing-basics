@@ -13,13 +13,19 @@ package com.example.android.architecture.blueprints.statistics
  * 8. If there's 0 completed tasks and 0 active tasks, then there are 0% completed tasks and 0% active tasks
  * */
 
+import com.example.android.architecture.blueprints.MainCoroutineRule
 import org.junit.Assert.*
 import org.junit.Test
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.statistics.getActiveAndCompletedStats
 import org.hamcrest.core.Is.`is`
+import org.junit.Rule
 
 class StatisticsUtilsTest {
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
 
     //    If there is an empty list (emptyList()), then both percentages should be 0f.
     @Test

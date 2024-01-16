@@ -1,6 +1,7 @@
 package com.example.android.architecture.blueprints.todoapp.data.source
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.android.architecture.blueprints.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import org.junit.Assert.*
@@ -9,10 +10,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.core.IsEqual
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 
 class DefaultTasksRepositoryTest {
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     //    add variables for the repository and the fake data source
     private val task1 = Task("Title1", "Description1")
     private val task2 = Task("Title2", "Description2")
@@ -34,14 +40,14 @@ class DefaultTasksRepositoryTest {
         val tasksLocalDataSource = FakeDatasource(localTasks.toMutableList())
         //        get a reference to the class under test
         tasksRepository = DefaultTasksRepository(
-            tasksRemoteDataSource, tasksLocalDataSource, Dispatchers.Unconfined
+            tasksRemoteDataSource, tasksLocalDataSource, Dispatchers.Main
         )
 
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun getTasks_requestsAllTasksFromRemoteDataSource() = runBlockingTest {
+    fun getTasks_requestsAllTasksFromRemoteDataSource() = mainCoroutineRule.runBlockingTest {
         // When tasks are requested from the tasks repository
         val tasks = tasksRepository.getTasks(true) as Result.Success
         // Then tasks are loaded from the remote data source
