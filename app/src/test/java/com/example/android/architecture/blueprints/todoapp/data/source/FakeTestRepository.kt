@@ -1,20 +1,27 @@
 package com.example.android.architecture.blueprints.todoapp.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Task
 
 class FakeTestRepository : TasksRepository {
+
+    var tasksServiceData: LinkedHashMap<String, Task> = LinkedHashMap()
+
+    private val observableTasks = MutableLiveData<Result<List<Task>>>()
+
+
     override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
-        TODO("Not yet implemented")
+        return Result.Success(tasksServiceData.values.toList())
     }
 
     override suspend fun refreshTasks() {
-        TODO("Not yet implemented")
+        observableTasks.value = getTasks()
     }
 
     override fun observeTasks(): LiveData<Result<List<Task>>> {
-        TODO("Not yet implemented")
+        return observableTasks
     }
 
     override suspend fun refreshTask(taskId: String) {
@@ -59,6 +66,13 @@ class FakeTestRepository : TasksRepository {
 
     override suspend fun deleteTask(taskId: String) {
         TODO("Not yet implemented")
+    }
+
+    //    Add the addTasks() method, which takes a vararg of tasks and adds them to the tasksServiceData map.
+    fun addTasks(vararg tasks: Task) {
+        for (task in tasks) {
+            tasksServiceData[task.id] = task
+        }
     }
 
 }
